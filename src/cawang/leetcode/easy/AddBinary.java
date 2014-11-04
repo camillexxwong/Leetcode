@@ -1,6 +1,6 @@
 package cawang.leetcode.easy;
 
-////
+
 import org.junit.Test;
 
 public class AddBinary {
