@@ -1,4 +1,4 @@
-package cawang.leetcode.easy;
+package cawang.leetcode.medium;
 
 import java.util.Stack;
 
