@@ -1,13 +1,33 @@
 package cawang.leetcode.easy;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import org.junit.Test;
 
 public class RemoveDuplicatesFromSortedArray {
-    public int removeDuplicates(int[] A) {
+	
+	public int removeDuplicates(int[] A) {
+		//return removeDuplicates_1(A);
+		//return removeDuplicates_2(A);
+		return removeDuplicates_3(A);
+	}
+
+
+
+	/**
+	 * Time: O(n)
+	 * Space: O(n)
+	 * Swap: minimum
+	 * 
+	 * 也可增加swap次数减少space
+	 * @param A
+	 * @return
+	 */
+	public int removeDuplicates_1(int[] A) {
         Queue<Integer> q=new LinkedList<Integer>();
         int count=0;
         int step=1;
@@ -34,6 +54,43 @@ public class RemoveDuplicatesFromSortedArray {
         return newLength;
     }
     
+	//not in-place, and has difficulty in cast type
+    public int[] removeDuplicates_2(int[] A) {
+    	HashSet<Integer> set =new HashSet<Integer>();
+    	for(int a:A){
+    		set.add(a);
+    	}
+    	Integer[] newArray=(Integer[]) set.toArray();
+    	return parseIntegersToInts(newArray);
+	}
+    
+    private int[] parseIntegersToInts(Integer[] array){
+    	int[] result=new int[array.length];
+    	for(int i=0;i<array.length;i++){
+    		result[i]=array[i];
+    	}
+    	return result;
+    }
+    
+    /**
+     * Better solution, use 2 pointers, but same direction
+     * Time: n
+     * swap: minimum
+     * Space: O(1)
+     * 
+     * @param a
+     * @return
+     */
+	public int removeDuplicates_3(int[] A) {
+		if(A==null||A.length==0) return 0;
+		int slow=0; //pointer slow, as comparison
+		int fast=1; //pointer fast
+		while(fast<A.length){
+			if(A[fast]!=A[slow]) A[++slow]=A[fast++]; //not slow++
+			else fast++;
+		}
+		return slow+1;
+	}
     @Test
     public void test(){
     	int[] A1={1,2};
@@ -43,6 +100,9 @@ public class RemoveDuplicatesFromSortedArray {
     	int[] A2={1,1,1,2};
     	removeDuplicates(A2);
     	System.out.println(Arrays.toString(A2));
+    	
+    	int[] A3={1,1,1,2,3,3,4};
+    	System.out.println("length: "+removeDuplicates_3(A3)+", Array: "+Arrays.toString(A3));
     }
     
 }

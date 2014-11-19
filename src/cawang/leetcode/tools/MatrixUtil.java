@@ -2,7 +2,7 @@ package cawang.leetcode.tools;
 
 import java.util.HashSet;
 
-public class TwoDMatric {
+public class MatrixUtil {
 	/**
 	 * from Searcha2DMatrix
 	 * @param i
@@ -95,6 +95,55 @@ public class TwoDMatric {
     	else return false;
     }
     
+	/**
+	 * 适用于数组中distinct元素小于等于32的情况
+     * Use bitmask instead of hashset
+     * Time: O(n), 仅遍历一次，优于HashSet方法
+     * @param board
+     * @return
+     * 
+     * use bitmask instead of hashset
+     * for each group (9 cells), set a groupbitmask, for each cell, set a cellbitmask
+     * 
+     * the bitmask will have a length of 9, 
+     * 000000001 means there's one 1, and no others
+     * 000001101 means there's one 1, one 3, one 4, and no others
+     * 
+     * groupbitmask stores the appeared elements in this group so far
+     * cellbitmask stores the current element
+     * if current already in gourp, groupbitmask&cellbitmask!=0
+     * 每次循环即将结束时，更新groupbitmask, 加入当前的cell
+     * groupbitmask=groupbitmask|cellbitmask
+     * 
+     * hint:
+     * https://oj.leetcode.com/discuss/13929/o-n-2-java-solution-with-bitmasks
+     *  for (int j = 0; j < SIZE; ++j) {
+                char cell = board[i][j];
+                if (cell == '.')
+                    continue;
+                int cellBitmask = 1 << (cell - '1');
+                if ((cellBitmask & bitmask) != 0)
+                    return false;
+                bitmask |= cellBitmask;
+            }
+     */
+    private  boolean hasDuplicates_bitMask(char[][] matrix, char escape, int starti, int startj, int endi,int endj){
+    	int m=endj-startj+1; //row length
+    	int n=endi-starti+1;
+    	int validNums=m*n;
+    	int groupBitMask=0;
+    	for(int i=starti;i<endi+1;i++){ //not <n
+    		for(int j=startj;j<endj+1;j++){
+    			char c=matrix[i][j];
+    			if(c==escape) continue; //!!
+    			int cellBitMask=1<<(c-'1');
+    			if((cellBitMask&groupBitMask)!=0)return true;
+    			groupBitMask|=cellBitMask;
+    		}
+    	}
+    	return false;
+    }
+    	
     /**
      * convert string to matrix, only int
      * From: cawang.leetcode.easy.ValidSudoku 改编
