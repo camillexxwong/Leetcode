@@ -57,8 +57,8 @@ public class RemoveDuplicatesFromSortedArray {
 	//not in-place, and has difficulty in cast type
     public int[] removeDuplicates_2(int[] A) {
     	HashSet<Integer> set =new HashSet<Integer>();
-    	for(int a:A){
-    		set.add(a);
+    	for(int e:A){
+    		set.add(e);
     	}
     	Integer[] newArray=(Integer[]) set.toArray();
     	return parseIntegersToInts(newArray);

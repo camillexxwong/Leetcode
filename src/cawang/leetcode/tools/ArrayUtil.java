@@ -8,9 +8,9 @@ public class ArrayUtil {
 	 * @param A
 	 * @return
 	 */
-    public int[] removeDuplicates_2(int[] A) {
+    public int[] removeDuplicates_2(int[] array) {
     	HashSet<Integer> set =new HashSet<Integer>();
-    	for(int a:A){
+    	for(int a:array){
     		set.add(a);
     	}
     	Integer[] newArray=(Integer[]) set.toArray();
